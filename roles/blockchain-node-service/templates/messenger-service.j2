@@ -1,0 +1,16 @@
+[Unit]
+Description=BitumMessenger
+StartLimitIntervalSec=30
+StartLimitBurst=3
+
+[Service]
+Type=simple
+
+ExecStart=/root/.nvm/versions/node/v10.16.0/bin/node /opt/messenger/bitum-messenger-server.js
+
+Restart=always
+WorkingDirectory=/opt/
+
+[Install]
+WantedBy=multi-user.target
+Alias=bitum-messenger.service

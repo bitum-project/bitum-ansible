@@ -1,0 +1,29 @@
+---
+- name: Update service with command node
+  become: true
+  template:
+    src: node-service.j2
+    dest: /etc/systemd/system/bitum-node.service
+    mode: 0644
+
+- name: Update service with command node messenger
+  become: true
+  template:
+    src: messenger-service.j2
+    dest: /etc/systemd/system/bitum-messenger.service
+    mode: 0644
+    # owner: '{{ service.node.owner }}'
+    # group: '{{ service.node.group }}'
+
+- name: Start bitum-node.service
+  systemd:
+    name: bitum-node.service
+    state: restarted
+    daemon_reload: yes
+
+- name: Start bitum-messenger.service
+  systemd:
+    name: bitum-messenger.service
+    state: restarted
+    daemon_reload: yes
+

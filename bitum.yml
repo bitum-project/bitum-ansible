@@ -1,0 +1,33 @@
+---
+#
+# Playbook to install the ELK stack + Beats
+#
+#
+- hosts: all
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+  - { role: java }
+  - { role: elasticsearch }
+  # - { role: kibana }
+  - { role: php }
+  - role: ansible-role-nvm
+    nodejs_version: "10.16.0"
+  - { role: blockchain-git }
+  - { role: node-messenger }
+
+  # - group:
+  #   name: bitum
+  #   state: present
+  # - user:
+  #   name: bitum
+  #   groups: bitum
+  - role: blockchain-node-service
+    vars:
+      p2p_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      rpc_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      # service:
+      #   node:
+      #     group: bitum
+      #     user: bitum
